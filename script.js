@@ -12,7 +12,7 @@ function getComputerChoice(){
 }
 
 function getPlayerChoice(){
-    const input = prompt(`Please enter your input as: 'rock', 'paper' or 'scissors'`);
+    const input = prompt(`Please enter your input as: 'rock', 'paper' or 'scissors'`).toLowerCase();
     return input;
 }
 
@@ -35,6 +35,38 @@ function calcWhoWon() {
     }
     console.log(`Player chose: ${playerChoice} and computer chose: ${compChoice}.
     ${winner} won!`);
+    return winner
 } 
 
-calcWhoWon();
+function game(){
+    let compScore = 0;
+    let playerScore = 0;
+
+    for (i = 0; i < 5 ;i++) {
+        let result = calcWhoWon();
+        
+        if (result == "Player") {
+            playerScore++;
+        } else if (result == "Computer") {
+            compScore++;
+
+        }else {
+            continue;
+        }
+        console.log(`Computer Score: ${compScore} Player Score: ${playerScore}`);
+    }
+    if (compScore < playerScore) {
+        return "Player";
+    }else if (compScore > playerScore) {
+        return "Computer";
+    }else {
+        return 0;
+    }
+}
+
+let result = game()
+if (result == 0) {
+    console.log("Tie!")
+}else {
+    console.log(`${result} won!`)
+}
