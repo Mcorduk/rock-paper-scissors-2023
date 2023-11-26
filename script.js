@@ -1,4 +1,8 @@
-function getComputerChoice(){
+let playerScore = 0;
+let computerScore = 0;
+
+// Function to get a random choice for the computer: 'rock', 'paper', or 'scissors'
+function getComputerChoice() {
     const number = Math.floor(Math.random() * 3);
 
     switch (number) {
@@ -11,62 +15,83 @@ function getComputerChoice(){
     }
 }
 
-function getPlayerChoice(){
-    const input = prompt(`Please enter your input as: 'rock', 'paper' or 'scissors'`).toLowerCase();
-    return input;
-}
-
-function calcWhoWon() {
+// Function to play a round of the game
+function playRound(choice) {
+    // Get computer and player choices
     const compChoice = getComputerChoice();
-    const playerChoice = getPlayerChoice();
+    const playerChoice = choice;
 
-    let winner = ""
+    // Variable to store the winner of the round
+    let winner = "";
 
+    // Display the choices and the winner
+    console.log(`Player chose: ${playerChoice} and computer chose: ${compChoice}.`);
+
+    // Check for a tie
     if (compChoice == playerChoice) {
-        console.log("Tie!")
-        winner = "Nobody"
+        console.log("Tie!");
+        winner = "Nobody";
     }
-    else if ((compChoice == "rock" && playerChoice == "scissors") || 
-    (compChoice == "scissors" && playerChoice == "paper")|| 
-    (compChoice == "paper" && playerChoice == "rock")) {
+    // Check for computer win
+    else if (
+        (compChoice == "rock" && playerChoice == "scissors") ||
+        (compChoice == "scissors" && playerChoice == "paper") ||
+        (compChoice == "paper" && playerChoice == "rock")
+    ) {
         winner = "Computer";
-    }else {
+    }
+    // If not a tie or computer win, player wins
+    else {
         winner = "Player";
     }
-    console.log(`Player chose: ${playerChoice} and computer chose: ${compChoice}.
-    ${winner} won!`);
-    return winner
-} 
 
-function game(){
-    let compScore = 0;
-    let playerScore = 0;
+    console.log(`${winner} won!`)
 
-    for (i = 0; i < 5 ;i++) {
-        let result = calcWhoWon();
-        
-        if (result == "Player") {
-            playerScore++;
-        } else if (result == "Computer") {
-            compScore++;
+    // Return the winner for further use if needed
+    return winner;
+}
 
-        }else {
-            continue;
+function calcWin(round) {
+    for (let i = 0; i < round; i++) {
+        let winner = playRound();
+        if (winner == "Computer") {
+            computerScore++;
+        } else if (winner == "Player") {
+            playerScore++
+        } else {
+            continue; //is a tie noone gets any score
         }
-        console.log(`Computer Score: ${compScore} Player Score: ${playerScore}`);
     }
-    if (compScore < playerScore) {
-        return "Player";
-    }else if (compScore > playerScore) {
-        return "Computer";
-    }else {
-        return 0;
+    if (playerScore > computerScore) {
+        console.log("Player Wins!");
+    } else if (playerScore > computerScore) {
+        console.log("Computer Wins!");
+    } else {
+        console.log("Tie!");
     }
 }
 
-let result = game()
-if (result == 0) {
-    console.log("Tie!")
-}else {
-    console.log(`${result} won!`)
+// Choose buttons on the page and Add event listeners to buttons
+document.getElementById("rock")
+    .addEventListener("click", function () {
+        playRound("rock");
+    });
+
+document.getElementById("paper")
+    .addEventListener("click", function () {
+        playRound("paper");
+    });
+
+document.getElementById("scissors")
+    .addEventListener("click", function () {
+        playRound("scissors");
+    });
+
+let resultDiv = document.querySelector(".results")
+
+function displayResult() {
+
 }
+
+// Example: Run the playRound function
+const roundWinner = playRound();
