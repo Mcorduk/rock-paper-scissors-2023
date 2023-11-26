@@ -1,7 +1,8 @@
 let playerScore = 0;
 let computerScore = 0;
 
-// Function to get a random choice for the computer: 'rock', 'paper', or 'scissors'
+// Function to get a random choice for the computer:
+// 'rock', 'paper', or 'scissors'
 function getComputerChoice() {
     const number = Math.floor(Math.random() * 3);
 
@@ -18,18 +19,16 @@ function getComputerChoice() {
 // Function to play a round of the game
 function playRound(choice) {
     // Get computer and player choices
-    const compChoice = getComputerChoice();
     const playerChoice = choice;
+    const compChoice = getComputerChoice();
 
     // Variable to store the winner of the round
     let winner = "";
 
     // Display the choices and the winner
-    console.log(`Player chose: ${playerChoice} and computer chose: ${compChoice}.`);
 
     // Check for a tie
     if (compChoice == playerChoice) {
-        console.log("Tie!");
         winner = "Nobody";
     }
     // Check for computer win
@@ -44,15 +43,12 @@ function playRound(choice) {
     else {
         winner = "Player";
     }
-
-    console.log(`${winner} won!`)
-
-    // Return the winner for further use if needed
+    displayResult(playerChoice, compChoice, winner);
     return winner;
 }
 
 function calcWin(round) {
-    for (let i = 0; i < round; i++) {
+    while((computerScore != 5) || (playerScore != 5)){
         let winner = playRound();
         if (winner == "Computer") {
             computerScore++;
@@ -68,6 +64,12 @@ function calcWin(round) {
         console.log("Computer Wins!");
     } else {
         console.log("Tie!");
+    }
+}
+
+function clearDisplay() {
+    while (resultDiv.firstChild) {
+        resultDiv.removeChild(resultDiv.firstChild);
     }
 }
 
@@ -87,11 +89,23 @@ document.getElementById("scissors")
         playRound("scissors");
     });
 
+document.getElementById("clear")
+    .addEventListener("click", function () {
+        clearDisplay();
+    });
+
 let resultDiv = document.querySelector(".results")
 
-function displayResult() {
+// Get whoever won and push text into the Dom
+function displayResult(playerChoice, compChoice, winner) {
+    let spanInfo = document.createElement("span")
+    spanInfo.textContent = 
+    `Player chose: ${playerChoice} and computer chose: ${compChoice}.`;
 
+    let spanWinner = document.createElement("span");
+    spanWinner.textContent = (`The winner is ${winner}!`);
+    spanWinner.style.display = "block";
+    resultDiv.appendChild(spanInfo);
+    resultDiv.appendChild(spanWinner);
 }
 
-// Example: Run the playRound function
-const roundWinner = playRound();
