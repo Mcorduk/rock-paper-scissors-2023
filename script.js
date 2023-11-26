@@ -72,6 +72,7 @@ document.getElementById("rock")
     .addEventListener("click", function () {
         playRound("rock");
         checkWinner();
+        
     });
 
 document.getElementById("paper")
@@ -109,6 +110,7 @@ function displayResult(playerChoice, compChoice, winner) {
     spanRoundEnd.style.display = "block";
     resultDiv.appendChild(spanInfo);
     resultDiv.appendChild(spanRoundEnd);
+    insertBreak();
 }
 
 function displayEndScore(gameWinner) {
@@ -117,7 +119,7 @@ function displayEndScore(gameWinner) {
         `Player score: ${playerScore} / Computer score: ${computerScore}.`;
     let spanWinner = document.createElement("span")
     spanWinner.textContent =
-        (`The Winner is ${gameWinner}!`);
+        (` The Winner is ${gameWinner}!`);
 
     clearDisplay();
 
@@ -141,4 +143,9 @@ function replayGame() {
     
     clearDisplay();
     toggleVisibility();
+}
+
+function insertBreak() {
+        // Insert a line break using innerHTML
+        resultDiv.innerHTML += "<br>";
 }
