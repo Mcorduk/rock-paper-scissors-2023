@@ -51,11 +51,11 @@ function playRound(choice) {
 
 function checkWinner() {
 
-    if ((playerScore == 5) || (computerScore == 5)) {
-
-        if (playerScore > computerScore) {
+    if((playerScore >= 5) || (computerScore >= 5)) {
+        toggleVisibility();
+        if(playerScore > computerScore) {
             displayEndScore("Player");
-        } else {
+        } else{
             displayEndScore("Computer");
         }
     }
@@ -71,22 +71,29 @@ function clearDisplay() {
 document.getElementById("rock")
     .addEventListener("click", function () {
         playRound("rock");
-        checkWinner()
+        checkWinner();
     });
 
 document.getElementById("paper")
     .addEventListener("click", function () {
         playRound("paper");
+        checkWinner();
     });
 
 document.getElementById("scissors")
     .addEventListener("click", function () {
         playRound("scissors");
+        checkWinner();
     });
 
 document.getElementById("clear")
     .addEventListener("click", function () {
         clearDisplay();
+    });
+
+document.getElementById("replay")
+    .addEventListener("click", function () {
+        replayGame();
     });
 
 let resultDiv = document.querySelector(".results")
@@ -118,3 +125,20 @@ function displayEndScore(gameWinner) {
     resultDiv.appendChild(spanWinner);
 }
 
+function toggleVisibility() {
+    const buttonDiv = document.querySelector(".button-container");
+
+    // Toggle visibility using the style display property
+    if (buttonDiv.style.display === "none") {
+        buttonDiv.style.display = "block";
+    } else {
+        buttonDiv.style.display = "none";
+    }
+}
+function replayGame() {
+    playerScore = 0;
+    computerScore = 0;
+    
+    clearDisplay();
+    toggleVisibility();
+}
