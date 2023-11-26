@@ -38,32 +38,26 @@ function playRound(choice) {
         (compChoice == "paper" && playerChoice == "rock")
     ) {
         winner = "Computer";
+        computerScore++;
     }
     // If not a tie or computer win, player wins
     else {
         winner = "Player";
+        playerScore++;
     }
     displayResult(playerChoice, compChoice, winner);
     return winner;
 }
 
-function calcWin(round) {
-    while((computerScore != 5) || (playerScore != 5)){
-        let winner = playRound();
-        if (winner == "Computer") {
-            computerScore++;
-        } else if (winner == "Player") {
-            playerScore++
+function checkWinner() {
+
+    if ((playerScore == 5) || (computerScore == 5)) {
+
+        if (playerScore > computerScore) {
+            displayEndScore("Player");
         } else {
-            continue; //is a tie noone gets any score
+            displayEndScore("Computer");
         }
-    }
-    if (playerScore > computerScore) {
-        console.log("Player Wins!");
-    } else if (playerScore > computerScore) {
-        console.log("Computer Wins!");
-    } else {
-        console.log("Tie!");
     }
 }
 
@@ -77,6 +71,7 @@ function clearDisplay() {
 document.getElementById("rock")
     .addEventListener("click", function () {
         playRound("rock");
+        checkWinner()
     });
 
 document.getElementById("paper")
@@ -99,13 +94,27 @@ let resultDiv = document.querySelector(".results")
 // Get whoever won and push text into the Dom
 function displayResult(playerChoice, compChoice, winner) {
     let spanInfo = document.createElement("span")
-    spanInfo.textContent = 
-    `Player chose: ${playerChoice} and computer chose: ${compChoice}.`;
+    spanInfo.textContent =
+        `Player chose: ${playerChoice} and computer chose: ${compChoice}.`;
 
-    let spanWinner = document.createElement("span");
-    spanWinner.textContent = (`The winner is ${winner}!`);
-    spanWinner.style.display = "block";
+    let spanRoundEnd = document.createElement("span");
+    spanRoundEnd.textContent = (`This rounds winner is ${winner}!`);
+    spanRoundEnd.style.display = "block";
     resultDiv.appendChild(spanInfo);
+    resultDiv.appendChild(spanRoundEnd);
+}
+
+function displayEndScore(gameWinner) {
+    let spanScore = document.createElement("span")
+    spanScore.textContent =
+        `Player score: ${playerScore} / Computer score: ${computerScore}.`;
+    let spanWinner = document.createElement("span")
+    spanWinner.textContent =
+        (`The Winner is ${gameWinner}!`);
+
+    clearDisplay();
+
+    resultDiv.appendChild(spanScore);
     resultDiv.appendChild(spanWinner);
 }
 
